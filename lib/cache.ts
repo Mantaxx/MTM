@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { redis } from './redis';
+import { redis, getJson } from './redis';
 
 // Prosty in-memory cache (fallback dla Redis)
 interface CacheEntry<T> {
@@ -98,9 +98,7 @@ class MemoryCache {
 // Redis cache implementation
 class RedisCache {
   async get<T>(key: string): Promise<T | null> {
-    // TODO: Zaimplementuj prosty getJson na bazie redis.get
-    const val = await redis.get(key);
-    return val ? (JSON.parse(val) as T) : null;
+    return getJson<T>(key);
   }
 
   async set<T>(key: string, data: T, ttlSeconds: number = 300): Promise<void> {
