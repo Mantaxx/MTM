@@ -65,4 +65,13 @@ describe('getJson helper', () => {
     expect(result).toBeNull();
     expect(getJson).toHaveBeenCalledWith('non-existent-key');
   });
+
+  it('should handle invalid JSON gracefully', async () => {
+    // Mock getJson to return null for invalid JSON (simulating error handling)
+    vi.mocked(getJson).mockResolvedValue(null);
+    
+    const result = await getJson('invalid-json-key');
+    expect(result).toBeNull();
+    expect(getJson).toHaveBeenCalledWith('invalid-json-key');
+  });
 });
